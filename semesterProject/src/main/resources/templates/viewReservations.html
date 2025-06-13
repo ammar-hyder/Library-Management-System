@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your Reservations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar Styles */
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .brand {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: flex-end; /* Aligns items to the right */
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 8px 12px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #f39c12;
+            color: white;
+            border-radius: 4px;
+        }
+
+        nav .toggle-menu {
+            display: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                background-color: #333;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                border-radius: 4px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 0;
+            }
+
+            nav ul li a {
+                padding: 10px 20px;
+            }
+
+            nav .toggle-menu {
+                display: block;
+            }
+        }
+
+        /* Content Styles */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .button {
+            padding: 6px 12px;
+            margin: 4px 0;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button.delete {
+            background-color: #f44336;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .button.disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="header :: header"></th:block>
+
+<nav>
+    <a href="#" class="brand"></a>
+    <span class="toggle-menu" onclick="toggleMenu()">☰</span>
+    <ul>
+        <li><a href="#" th:href="@{/userHome}">User Dashboard</a></li>
+        <li><a href="#" th:href="@{/reservations}">Reservation</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h1>Your Reservations</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Reservation ID</th>
+            <th>ISBN</th>
+            <th>Reservation Date</th>
+            <th>Expiration Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${reservations}">
+            <td th:text="${reservation.reservation_id}"></td>
+            <td th:text="${reservation.isbn}"></td>
+            <td th:text="${reservation.reservation_date}"></td>
+            <td th:text="${reservation.expiration_date}"></td>
+            <td th:text="${reservation.reservation_status}"></td>
+            <td>
+                <!-- If the reservation is still active, allow the user to cancel it -->
+                <form th:action="@{/reservations/cancel/{reservationId}(reservationId=${reservation.reservation_id})}" method="post" style="display:inline;">
+                    <button type="submit" th:class="${reservation.reservation_status == 'PENDING' ? 'button' : 'button disabled'}" th:disabled="${reservation.reservation_status != 'PENDING'}">Cancel Reservation</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function toggleMenu() {
+        const menu = document.querySelector("nav ul");
+        menu.classList.toggle("show");
+    }
+</script>
+
+<th:block th:replace="footer :: footer"></th:block>
+
+</body>
+</html>

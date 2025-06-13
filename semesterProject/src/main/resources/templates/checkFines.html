@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Check Your Fines</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation bar styling */
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Header styling (left-aligned) */
+        h1 {
+            color: #4CAF50;
+            margin-top: 30px;
+            margin-left: 20px; /* Add space from left */
+            text-align: left; /* Left-align the text */
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Button styling */
+        button {
+            padding: 6px 12px;
+            margin: 4px 0;
+            background-color: #4CAF50; /* Green button */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            background-color: #ccc; /* Gray button for disabled state */
+            cursor: not-allowed;
+        }
+
+        /* Container for table and other elements */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Block -->
+<th:block th:replace="header :: header"></th:block>
+
+<!-- Navbar -->
+<nav>
+    <ul>
+        <li><a href="#" th:href="@{/userHome}">User Dashboard</a></li>
+        <li><a href="#" th:href="@{/fines}">Check Fines</a></li>
+    </ul>
+</nav>
+
+<!-- Main Content Container -->
+<div class="container">
+    <h1>Check Your Fines</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Fine ID</th>
+            <th>Borrowing ID</th>
+            <th>Fine Amount</th>
+            <th>Fine Due Date</th>
+            <th>Fine Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="fine : ${fines}">
+            <td th:text="${fine.fineId}"></td>
+            <td th:text="${fine.borrowing_Id}"></td>
+            <td th:text="${fine.fineAmount}"></td>
+            <td th:text="${fine.fineDueDate}"></td>
+            <td th:text="${fine.fineStatus}"></td>
+            <td>
+                <form th:action="@{/fines/pay/{fineId}(fineId=${fine.fineId})}" method="post" style="display:inline;">
+                    <button type="submit" th:disabled="${fine.fineStatus == 'PAID'}">Mark as Paid</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Footer Block -->
+<th:block th:replace="footer :: footer"></th:block>
+
+</body>
+</html>

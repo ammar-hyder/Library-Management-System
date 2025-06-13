@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+        nav ul li {
+            margin-left: 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: left;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="header :: header"></th:block>
+<nav>
+    <ul>
+        <li><a href="#">Admin Dashboard</a></li>
+        <li><a href="#" th:href="@{/adminHome/manageUsers}">Manage Users</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h1>Edit User</h1>
+
+    <form th:action="@{/adminHome/manageUsers/update}" method="post">
+        <input type="hidden" name="userID" th:value="${user.userID}">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" th:value="${user.username}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" th:value="${user.email}" required>
+        </div>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="USER" th:selected="${user.role == 'USER'}">User</option>
+                <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">Admin</option>
+            </select>
+        </div>
+        <button type="submit" class="btn">Save Changes</button>
+    </form>
+</div>
+<th:block th:replace="footer :: footer"></th:block>
+</body>
+</html>

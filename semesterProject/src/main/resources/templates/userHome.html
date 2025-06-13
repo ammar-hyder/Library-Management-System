@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+            color: #333;
+        }
+
+        /* Header & Navbar Styles */
+        nav {
+            background-color: #4CAF50;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .container p {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        /* Dashboard Grid Styles */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15), -5px -5px 10px rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        .card a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            border-top: 2px solid #3e8e41;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .container h1 {
+                font-size: 2rem;
+            }
+
+            .container p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+</head>
+<body>
+<!-- Include Header -->
+<th:block th:replace="header :: header"></th:block>
+
+<!-- Include Navbar -->
+<th:block th:replace="navbar :: navbar"></th:block>
+
+<div class="container">
+    <h1>Welcome, <span th:text="${loggedInUser.username}"></span>!</h1>
+    <p style="text-align: center;">Choose an option below to proceed:</p>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <a th:href="@{/profile}">
+                <h2>View/Edit Profile</h2>
+                <p>Manage your personal details and preferences.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a th:href="@{/borrowBooks}">
+                <h2>Browse All Books</h2>
+                <p>Explore the library's collection of books.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a th:href="@{/reservations}">
+                <h2>Your Reserved Books</h2>
+                <p>View the books you have reserved.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a th:href="@{/reservations/reserve}">
+                <h2>Reserve a Book</h2>
+                <p>Reserve a book to borrow from the library.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a th:href="@{/borrowBooks/returnBook}">
+                <h2>Return a Book</h2>
+                <p>Manage and return your borrowed books.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a th:href="@{/fines}">
+                <h2>Check Fines</h2>
+                <p>View and pay any outstanding fines.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a th:href="@{/logout}">
+                <h2>Logout</h2>
+                <p>Log out of your account securely.</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Include Footer -->
+<th:block th:replace="footer :: footer"></th:block>
+</body>
+</html>

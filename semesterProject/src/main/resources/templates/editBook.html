@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #4CAF50;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .form-actions {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .form-actions a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .form-actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="header :: header"></th:block>
+<nav>
+    <ul>
+        <li><a href="#" th:href="@{/adminHome}">Admin Dashboard</a></li>
+        <li><a href="#" th:href="@{/books}">Manage Books</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h1>Edit Book</h1>
+    <form th:action="@{/books/edit/{isbn}(isbn=${book.ISBN})}" th:method="post">
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" name="isbn" th:value="${book.ISBN}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" th:value="${book.title}" required>
+        </div>
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author" th:value="${book.author}" required>
+        </div>
+        <div class="form-group">
+            <label for="genre">Genre</label>
+            <select id="genre" name="genre" required>
+                <option value="">-- Select a Genre --</option>
+                <option th:each="genre : ${genres}"
+                        th:value="${genre['genre_name']}"
+                        th:text="${genre['genre_name']}">
+                </option>
+            </select>
+        </div>
+        <div class="form-actions">
+            <a href="#" th:href="@{/books/viewBooks}">Cancel</a>
+            <button type="submit">Save Changes</button>
+        </div>
+    </form>
+</div>
+<th:block th:replace="footer :: footer"></th:block>
+</body>
+</html>

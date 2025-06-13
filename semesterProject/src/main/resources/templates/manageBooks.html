@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Change navbar background color to #333 */
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+            text-decoration: none; /* Ensures no underline on links */
+            color: inherit; /* Inherits the default text color */
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Block -->
+<th:block th:replace="header :: header"></th:block>
+
+<!-- Navbar -->
+<nav>
+    <ul>
+        <li><a href="#" th:href="@{/adminHome}">Admin Dashboard</a></li>
+        <li><a href="#" th:href="@{/books}">Manage Books</a></li>
+    </ul>
+</nav>
+
+<!-- Main Container -->
+<div class="container">
+    <h1>Manage Books</h1>
+    <div class="card-container">
+        <!-- Add Book -->
+        <a href="#" th:href="@{/books/addBook}" class="card">
+            <h2>Add Book</h2>
+            <p>Add new books to the library database.</p>
+        </a>
+
+        <!-- View Books -->
+        <a href="#" th:href="@{/books/viewBooks}" class="card">
+            <h2>View Books</h2>
+            <p>View and manage all the books in the library.</p>
+        </a>
+
+        <!-- Add Genre -->
+        <a href="#" th:href="@{/genre/addGenre}" class="card">
+            <h2>Add Genre</h2>
+            <p>Add new genres to categorize books effectively.</p>
+        </a>
+
+        <!-- View Genres -->
+        <a href="#" th:href="@{/genre/viewGenres}" class="card">
+            <h2>View Genres</h2>
+            <p>View and manage all book genres.</p>
+        </a>
+    </div>
+</div>
+
+<!-- Footer Block -->
+<th:block th:replace="footer :: footer"></th:block>
+
+</body>
+</html>

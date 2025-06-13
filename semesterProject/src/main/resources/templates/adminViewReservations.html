@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin: View All Reservations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #333; /* Dark gray navbar */
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-top: 30px;
+            margin-left: 20px; /* Add space from left */
+            text-align: left; /* Left-align the text */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .button {
+            padding: 6px 12px;
+            margin: 4px 0;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button.delete {
+            background-color: #f44336; /* Red button for delete */
+        }
+
+        .button.disabled {
+            background-color: #d3d3d3; /* Gray button for disabled state */
+            cursor: not-allowed;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
+</head>
+<body>
+
+
+<th:block th:replace="header :: header"></th:block>
+
+<nav>
+    <ul>
+        <li><a href="#" th:href="@{/adminHome}">Admin Dashboard</a></li>
+        <li><a href="#" th:href="@{/reservations/admin/view-all}">Manage Reservations</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h1>View All Reservations</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Reservation ID</th>
+            <th>User ID</th>
+            <th>ISBN</th>
+            <th>Reservation Date</th>
+            <th>Expiration Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${reservations}">
+            <td th:text="${reservation.reservation_id}"></td>
+            <td th:text="${reservation.user_id}"></td>
+            <td th:text="${reservation.isbn}"></td>
+            <td th:text="${reservation.reservation_date}"></td>
+            <td th:text="${reservation.expiration_date}"></td>
+            <td th:text="${reservation.reservation_status}"></td>
+            <td>
+                <!-- Cancel button (disabled if status is not 'PENDING') -->
+                <form th:action="@{/reservations/admin/cancel/{reservationId}(reservationId=${reservation.reservation_id})}"
+                      method="post" style="display:inline;">
+                    <button type="submit" th:class="${reservation.reservation_status == 'PENDING' ? 'button delete' : 'button disabled'}"
+                            th:disabled="${reservation.reservation_status != 'PENDING'}">
+                        Cancel
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<th:block th:replace="footer :: footer"></th:block>
+
+</body>
+</html>
